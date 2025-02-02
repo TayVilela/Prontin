@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:prontin/pages/login_page.dart';
+import 'package:prontin/services/users_services.dart';
 
 class SignUpPage extends StatelessWidget {
-  const SignUpPage({super.key});
+  SignUpPage({super.key});
+
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+  final TextEditingController _username = TextEditingController();
+  final TextEditingController _name = TextEditingController();
+  final TextEditingController _gender = TextEditingController();
+  final TextEditingController _birthday = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +49,7 @@ class SignUpPage extends StatelessWidget {
 
               //campo nome
               TextFormField(
+                controller: _name,
                 decoration: const InputDecoration(
                     prefixIcon: Icon(
                       Icons.person,
@@ -62,11 +71,81 @@ class SignUpPage extends StatelessWidget {
                 height: 10,
               ),
 
-              //campo email
               TextFormField(
+                controller: _gender,
                 decoration: const InputDecoration(
                     prefixIcon: Icon(
-                      Icons.person,
+                      Icons.man_2_rounded,
+                      color: Colors.white,
+                    ),
+                    label: Text(
+                      "Gênero",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 1, color: Colors.white),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 1.7, color: Colors.white))),
+              ),
+
+              const SizedBox(
+                height: 10,
+              ),
+
+              TextFormField(
+                controller: _birthday,
+                decoration: const InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.cake_rounded,
+                      color: Colors.white,
+                    ),
+                    label: Text(
+                      "Data de Nascimento",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 1, color: Colors.white),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 1.7, color: Colors.white))),
+              ),
+
+              const SizedBox(
+                height: 10,
+              ),
+
+              TextFormField(
+                controller: _username,
+                decoration: const InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.abc_rounded,
+                      color: Colors.white,
+                    ),
+                    label: Text(
+                      "Usuário",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 1, color: Colors.white),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide:
+                            BorderSide(width: 1.7, color: Colors.white))),
+              ),
+
+              const SizedBox(
+                height: 10,
+              ),
+
+              //campo email
+              TextFormField(
+                controller: _email,
+                decoration: const InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.alternate_email_rounded,
                       color: Colors.white,
                     ),
                     label: Text(
@@ -87,6 +166,7 @@ class SignUpPage extends StatelessWidget {
 
               // campo senha
               TextFormField(
+                controller: _password,
                 decoration: const InputDecoration(
                     prefixIcon: Icon(
                       Icons.key,
@@ -116,12 +196,24 @@ class SignUpPage extends StatelessWidget {
               Column(
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      UsersServices _usersServices = UsersServices();
+                      if (await _usersServices.signUp(
+                          _email.text,
+                          _password.text,
+                          _name.text,
+                          _username.text,
+                          _birthday.text,
+                          _gender.text)) {
+                        Navigator.of(context)
+                            .pop(); //desce a pagina para o fim da pilha
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       elevation: 1.5,
                       minimumSize: const Size.fromHeight(50),
                     ),
-                    child: const Text("Cadastro",
+                    child: const Text("Cadastrar",
                         style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 16,
@@ -169,10 +261,8 @@ class SignUpPage extends StatelessWidget {
 
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginPage()));
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginPage()));
                 },
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.end,

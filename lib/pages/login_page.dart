@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:prontin/pages/main_page.dart';
 import 'package:prontin/pages/signup_page.dart';
+import 'package:prontin/services/users_services.dart';
 
 class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+  LoginPage({super.key});
+
+  //CONTROLLERS
+  TextEditingController _email = TextEditingController();
+  TextEditingController _password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +49,10 @@ class LoginPage extends StatelessWidget {
                       color: Color.fromRGBO(241, 221, 136, 1.000))),
               //inicio campo email
               TextFormField(
+                controller: _email,
                 decoration: const InputDecoration(
                     prefixIcon: Icon(
-                      Icons.person,
+                      Icons.alternate_email_rounded,
                       color: Colors.white,
                     ),
                     label: Text(
@@ -64,6 +71,7 @@ class LoginPage extends StatelessWidget {
               ),
               // inicio campo senha
               TextFormField(
+                controller: _password,
                 decoration: const InputDecoration(
                     prefixIcon: Icon(
                       Icons.key,
@@ -100,7 +108,28 @@ class LoginPage extends StatelessWidget {
               Column(
                 children: [
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      //se o login der certo vai para pagina home
+                      UsersServices _usersServices = UsersServices();
+                      if (await _usersServices.signIn(
+                          email: _email.text,
+                          password: _password.text,
+                          onSucess: () {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => MainPage()));
+                          },
+                          onFail: (e) {
+                            var snack = SnackBar(
+                              content: Text(e),
+                              backgroundColor: Colors.red,
+                              behavior: SnackBarBehavior.floating,
+                              margin: EdgeInsets.all(20),
+                              elevation: 15,
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(snack);
+                          })) ;
+                    },
                     style: ElevatedButton.styleFrom(
                       elevation: 1.5,
                       minimumSize: const Size.fromHeight(50),
@@ -155,7 +184,7 @@ class LoginPage extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const SignUpPage()));
+                      MaterialPageRoute(builder: (context) => SignUpPage()));
                 },
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.end,
