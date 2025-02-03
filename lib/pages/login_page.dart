@@ -7,8 +7,8 @@ class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
   //CONTROLLERS
-  TextEditingController _email = TextEditingController();
-  TextEditingController _password = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _password = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -110,8 +110,8 @@ class LoginPage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () async {
                       //se o login der certo vai para pagina home
-                      UsersServices _usersServices = UsersServices();
-                      if (await _usersServices.signIn(
+                      UsersServices usersServices = UsersServices();
+                      usersServices.signIn(
                           email: _email.text,
                           password: _password.text,
                           onSucess: () {
@@ -128,7 +128,7 @@ class LoginPage extends StatelessWidget {
                               elevation: 15,
                             );
                             ScaffoldMessenger.of(context).showSnackBar(snack);
-                          })) ;
+                          });
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 1.5,

@@ -9,7 +9,6 @@ class Users {
   String? name;
   String? birthday;
   String? gender;
-  String? image;
 
   //metodo construtor
   Users({
@@ -20,8 +19,7 @@ class Users {
     this.password,
     this.birthday,
     this.gender,
-    this.image
-});
+  });
 
   //metodo que converte os dados para formato mapa (compativel do Json)
   Map<String, dynamic> toJson() {
@@ -45,6 +43,5 @@ class Users {
     name = doc.get('name');
     gender = doc.get('gender');
     birthday = doc.get('birthday');
-    image = doc.get('image');
   }
 }
