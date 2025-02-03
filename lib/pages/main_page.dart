@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prontin/pages/notepad_page.dart';
 import 'package:prontin/pages/userprofile_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -41,10 +42,8 @@ class _MainPageState extends State<MainPage> {
 
         //item 2 do bottomNavigation (bloco de notas)
         const Center(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [Text("Página de Bloco de Notas")],
-        )),
+          child: NotepadPage(),
+        ),
 
         //item 3 do bottomNavigation (perfil do user)
         const Center(

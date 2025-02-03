@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:prontin/services/notepads_services.dart';
 import 'package:prontin/services/users_services.dart';
 import 'package:provider/provider.dart';
 import 'pages/login_page.dart';
@@ -38,11 +39,14 @@ class MyApp extends StatelessWidget {
           create: (_) => UsersServices(),
           lazy: false,
         ),
+        ChangeNotifierProvider<NotepadsServices>(
+          create: (_) => NotepadsServices(),
+        ),
       ],
       child: MaterialApp(
         title: 'Prontin',
         theme: ThemeData(
-          scaffoldBackgroundColor: const Color.fromRGBO(11, 116, 116, 1.000),
+          scaffoldBackgroundColor: const Color.fromARGB(255, 30, 137, 137),
           fontFamily: 'Questrial',
           textTheme: const TextTheme(
             bodyLarge: TextStyle(color: Colors.white),

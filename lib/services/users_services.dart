@@ -63,8 +63,8 @@ class UsersServices extends ChangeNotifier {
         password: password!,
       ))
           .user;
-      print("Usuário autenticado: ${user!.uid}");
       await _loadingCurrentUser(user: user);
+      print("Usuário autenticado: ${user!.uid}");
       onSucess!();
       // return Future.value(true);
     } on FirebaseAuthException catch (e) {
