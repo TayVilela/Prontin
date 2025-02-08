@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Note {
+class Notepads {
   String? id;
   String? title;
   String? content;
   String? userId;
   Timestamp? createdAt;
 
-  Note({
+  Notepads({
     this.id,
     required this.title,
     required this.content,
@@ -25,8 +25,8 @@ class Note {
     };
   }
 
-  // Construtor para converter um documento Firestore em objeto `Note`
-  Note.fromJson(DocumentSnapshot doc) {
+  // Construtor para converter um documento Firestore em objeto `Notepads`
+  Notepads.fromJson(DocumentSnapshot doc) {
     id = doc.id;
     title = doc.get('title');
     content = doc.get('content');

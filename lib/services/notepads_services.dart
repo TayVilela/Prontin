@@ -7,8 +7,8 @@ class NotepadsServices extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  List<Note> _notes = [];
-  List<Note> get notes => _notes;
+  List<Notepads> _notes = [];
+  List<Notepads> get notes => _notes;
 
   NotepadsServices() {
     loadNotes();
@@ -32,7 +32,7 @@ class NotepadsServices extends ChangeNotifier {
 
       _notes = snapshot.docs.map((doc) {
         print("Nota carregada: ${doc.data()}"); // Debug para ver os dados
-        return Note.fromJson(doc);
+        return Notepads.fromJson(doc);
       }).toList();
 
       notifyListeners(); // Atualiza a interface
@@ -45,7 +45,7 @@ class NotepadsServices extends ChangeNotifier {
     User? user = _auth.currentUser;
     if (user == null) return;
 
-    Note newNote = Note(
+    Notepads newNote = Notepads(
       title: title,
       content: content,
       userId: user.uid,
@@ -68,7 +68,7 @@ class NotepadsServices extends ChangeNotifier {
 
     int index = _notes.indexWhere((note) => note.id == noteId);
     if (index != -1) {
-      _notes[index] = Note(
+      _notes[index] = Notepads(
         id: noteId,
         title: title,
         content: content,

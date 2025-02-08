@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prontin/pages/board_page.dart';
 import 'package:prontin/pages/notepad_page.dart';
 import 'package:prontin/pages/userprofile_page.dart';
 
@@ -31,14 +32,9 @@ class _MainPageState extends State<MainPage> {
       ),
       body: [
         //item 1 do bottomNavigation (quadros)
-        Center(
-            child: Container(
-          color: const Color.fromRGBO(241, 221, 136, 1.000),
-          child: const Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [Text("Página de Quadros")],
-          ),
-        )),
+        const Center(
+          child: BoardPage(),
+        ),
 
         //item 2 do bottomNavigation (bloco de notas)
         const Center(

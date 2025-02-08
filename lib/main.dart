@@ -1,7 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:prontin/services/boards_services.dart';
+import 'package:prontin/services/lists_services.dart';
 import 'package:prontin/services/notepads_services.dart';
+import 'package:prontin/services/tasks_services.dart';
 import 'package:prontin/services/users_services.dart';
 import 'package:provider/provider.dart';
 import 'pages/login_page.dart';
@@ -41,6 +44,15 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<NotepadsServices>(
           create: (_) => NotepadsServices(),
+        ),
+        ChangeNotifierProvider<BoardsServices>(
+          create: (_) => BoardsServices(),
+        ),
+        ChangeNotifierProvider<ListsServices>(
+          create: (_) => ListsServices(),
+        ),
+        ChangeNotifierProvider<TasksServices>(
+          create: (_) => TasksServices(),
         ),
       ],
       child: MaterialApp(

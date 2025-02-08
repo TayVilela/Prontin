@@ -26,7 +26,7 @@ class _NotepadPageState extends State<NotepadPage> {
       appBar: AppBar(
         title: const Text(
           "Bloco de Notas",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.teal[700],
       ),
@@ -90,7 +90,9 @@ class _NotepadPageState extends State<NotepadPage> {
 
     if (note != null) {
       final document = quill.Document()..insert(0, note.content ?? "");
-      contentController = quill.QuillController(document: document, selection: const TextSelection.collapsed(offset: 0));
+      contentController = quill.QuillController(
+          document: document,
+          selection: const TextSelection.collapsed(offset: 0));
     }
 
     showDialog(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prontin/pages/edituserprofile_page.dart';
 import 'package:prontin/services/users_services.dart';
 import 'package:provider/provider.dart';
 
@@ -12,7 +13,7 @@ class UserProfilePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           "Meu perfil",
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.teal[700],
       ), // Fundo da página
@@ -76,18 +77,15 @@ class UserProfilePage extends StatelessWidget {
                     ),
                     const SizedBox(height: 5),
 
-                    // Email do usuário
-                    Text(
-                      " ${usersServices.users!.email ?? "Não disponível"}",
-                      style:
-                          const TextStyle(fontSize: 16, color: Colors.black54),
-                    ),
-                    const SizedBox(height: 15),
-
                     // Botão de editar perfil (futuro)
                     ElevatedButton.icon(
                       onPressed: () {
-                        // Implementar navegação para tela de edição do perfil
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const EditUserProfilePage()),
+                        );
                       },
                       icon: const Icon(Icons.edit, color: Colors.white),
                       label: const Text("Editar Perfil"),
