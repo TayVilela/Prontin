@@ -3,11 +3,19 @@ import 'package:prontin/pages/main_page.dart';
 import 'package:prontin/pages/signup_page.dart';
 import 'package:prontin/services/users_services.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   LoginPage({super.key});
 
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   //CONTROLLERS
+  bool _obscurePassword = true;
+
   final TextEditingController _email = TextEditingController();
+
   final TextEditingController _password = TextEditingController();
 
   @override
@@ -71,24 +79,34 @@ class LoginPage extends StatelessWidget {
               ),
               // inicio campo senha
               TextFormField(
+                obscureText: _obscurePassword,
                 controller: _password,
-                decoration: const InputDecoration(
-                    prefixIcon: Icon(
+                decoration: InputDecoration(
+                    prefixIcon: const Icon(
                       Icons.key,
                       color: Colors.white,
                     ),
-                    suffixIcon: Icon(
-                      Icons.remove_red_eye_rounded,
-                      color: Colors.white,
+                    suffixIcon: InkWell(
+                      onTap: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                      child: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: Colors.white,
+                      ),
                     ),
-                    label: Text(
+                    label: const Text(
                       "Senha",
                       style: TextStyle(color: Colors.white),
                     ),
-                    enabledBorder: OutlineInputBorder(
+                    enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(width: 1, color: Colors.white),
                     ),
-                    focusedBorder: OutlineInputBorder(
+                    focusedBorder: const OutlineInputBorder(
                         borderSide:
                             BorderSide(width: 1.7, color: Colors.white))),
               ), //fim campo senha

@@ -224,4 +224,9 @@ class UsersServices extends ChangeNotifier {
           .toString(); // Retorna o erro como string para ser tratado na View
     }
   }
+
+// Método para logout do usuário
+  Future<void> logout() async {
+    await _auth.signOut();
+  }
 }

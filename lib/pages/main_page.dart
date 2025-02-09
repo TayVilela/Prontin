@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:prontin/pages/board_page.dart';
+import 'package:prontin/pages/login_page.dart';
 import 'package:prontin/pages/notepad_page.dart';
 import 'package:prontin/pages/userprofile_page.dart';
+import 'package:prontin/services/users_services.dart';
+import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
   MainPage({super.key});
@@ -29,6 +32,18 @@ class _MainPageState extends State<MainPage> {
             ),
           ],
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout, color: Colors.white),
+            onPressed: () async {
+              await Provider.of<UsersServices>(context, listen: false).logout();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
+              );
+            },
+          ),
+        ],
       ),
       body: [
         //item 1 do bottomNavigation (quadros)

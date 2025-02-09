@@ -14,14 +14,6 @@ class BoardPage extends StatelessWidget {
         title:
             const Text("Meus Quadros", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.teal[700],
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh, color: Colors.white),
-            onPressed: () {
-              Provider.of<BoardsServices>(context, listen: false).loadBoards();
-            },
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),

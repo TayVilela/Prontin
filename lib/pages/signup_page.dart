@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:prontin/pages/login_page.dart';
 import 'package:prontin/services/users_services.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   SignUpPage({super.key});
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  bool _obscurePassword = true;
 
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
@@ -166,24 +173,34 @@ class SignUpPage extends StatelessWidget {
 
               // campo senha
               TextFormField(
+                obscureText: _obscurePassword,
                 controller: _password,
-                decoration: const InputDecoration(
-                    prefixIcon: Icon(
+                decoration: InputDecoration(
+                    prefixIcon: const Icon(
                       Icons.key,
                       color: Colors.white,
                     ),
-                    suffixIcon: Icon(
-                      Icons.remove_red_eye_rounded,
-                      color: Colors.white,
+                    suffixIcon: InkWell(
+                      onTap: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                      child: Icon(
+                        _obscurePassword
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: Colors.white,
+                      ),
                     ),
-                    label: Text(
+                    label: const Text(
                       "Senha",
                       style: TextStyle(color: Colors.white),
                     ),
-                    enabledBorder: OutlineInputBorder(
+                    enabledBorder: const OutlineInputBorder(
                       borderSide: BorderSide(width: 1, color: Colors.white),
                     ),
-                    focusedBorder: OutlineInputBorder(
+                    focusedBorder: const OutlineInputBorder(
                         borderSide:
                             BorderSide(width: 1.7, color: Colors.white))),
               ),
