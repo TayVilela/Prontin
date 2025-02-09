@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prontin/pages/main_page.dart';
 import 'package:prontin/pages/signup_page.dart';
 import 'package:prontin/services/users_services.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
@@ -109,36 +110,38 @@ class LoginPage extends StatelessWidget {
                 children: [
                   ElevatedButton(
                     onPressed: () async {
-                      //se o login der certo vai para pagina home
-                      UsersServices usersServices = UsersServices();
+                      final usersServices =
+                          Provider.of<UsersServices>(context, listen: false);
+
                       usersServices.signIn(
-                          email: _email.text,
-                          password: _password.text,
-                          onSucess: () {
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) => MainPage()));
-                          },
-                          onFail: (e) {
-                            var snack = SnackBar(
-                              content: Text(e),
-                              backgroundColor: Colors.red,
-                              behavior: SnackBarBehavior.floating,
-                              margin: EdgeInsets.all(20),
-                              elevation: 15,
-                            );
-                            ScaffoldMessenger.of(context).showSnackBar(snack);
-                          });
+                        email: _email.text,
+                        password: _password.text,
+                        onSucess: () {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => MainPage()),
+                          );
+                        },
+                        onFail: (e) {
+                          var snack = SnackBar(
+                            content: Text(e),
+                            backgroundColor: Colors.red,
+                            behavior: SnackBarBehavior.floating,
+                            margin: const EdgeInsets.all(20),
+                            elevation: 15,
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snack);
+                        },
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       elevation: 1.5,
                       minimumSize: const Size.fromHeight(50),
                     ),
-                    child: const Text("Login",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16,
-                        )),
+                    child: const Text(
+                      "Login",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                    ),
                   ),
                 ],
               ),

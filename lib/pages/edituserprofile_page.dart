@@ -21,7 +21,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
   @override
   void initState() {
     super.initState();
-    final user = Provider.of<UsersServices>(context, listen: false).users;
+    final user = Provider.of<UsersServices>(context, listen: false).currentUser;
     nameController = TextEditingController(text: user?.name ?? "");
     usernameController = TextEditingController(text: user?.userName ?? "");
     emailController = TextEditingController(text: user?.email ?? "");
@@ -36,7 +36,8 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(11, 116, 116, 1.000),
       appBar: AppBar(
-        title: const Text("Editar Perfil", style: TextStyle(color: Colors.white)),
+        title:
+            const Text("Editar Perfil", style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.teal[700],
         actions: [
           isLoading
@@ -78,9 +79,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
               _buildTextField(birthdayController, 'Data de Nascimento'),
               const SizedBox(height: 10),
               _buildTextField(genderController, 'Gênero'),
-
               const SizedBox(height: 20),
-
               ElevatedButton(
                 onPressed: isLoading
                     ? null
@@ -102,20 +101,18 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
                   minimumSize: const Size(double.infinity, 50),
                   backgroundColor: Colors.blue,
                 ),
-                child: const Text("Salvar Alterações", style: TextStyle(fontSize: 16)),
+                child: const Text("Salvar Alterações",
+                    style: TextStyle(fontSize: 16)),
               ),
-
               const SizedBox(height: 10),
-
               TextButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/changePassword');
                 },
-                child: const Text("Mudar Senha", style: TextStyle(color: Colors.white)),
+                child: const Text("Mudar Senha",
+                    style: TextStyle(color: Colors.white)),
               ),
-
               const SizedBox(height: 10),
-
               ElevatedButton(
                 onPressed: () {
                   showDialog(
@@ -136,7 +133,8 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
                               Navigator.pop(context);
                               Navigator.pop(context);
                             },
-                            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red),
                             child: const Text("Excluir"),
                           ),
                         ],
@@ -163,7 +161,8 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
       decoration: InputDecoration(
         labelText: label,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        contentPadding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
       ),
     );
   }

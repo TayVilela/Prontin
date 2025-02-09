@@ -21,13 +21,23 @@ class Users {
     this.gender,
   });
 
+  factory Users.fromJson(Map<String, dynamic> json) {
+    return Users(
+      id: json['id'] ?? '',
+      email: json['email'] ?? '',
+      userName: json['userName'] ?? '',
+      name: json['name'] ?? '',
+      birthday: json['birthday'],
+      gender: json['gender'],
+    );
+  }
+
   //metodo que converte os dados para formato mapa (compativel do Json)
   Map<String, dynamic> toJson() {
     return {
-      //chave (String) : valor (dynamic)
       'id': id,
-      'userName': userName,
       'email': email,
+      'userName': userName,
       'name': name,
       'birthday': birthday,
       'gender': gender,
@@ -36,12 +46,4 @@ class Users {
 
   //método construtor para converter dados do objeto do tipo documento do firebase
   //em formato compatível com o Objeto Users (esta própria classe)
-  Users.fromJson(DocumentSnapshot doc) {
-    id = doc.id;
-    userName = doc.get('userName');
-    email = doc.get('email');
-    name = doc.get('name');
-    gender = doc.get('gender');
-    birthday = doc.get('birthday');
-  }
 }
