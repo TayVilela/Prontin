@@ -4,57 +4,82 @@ import 'package:prontin/models/tasks.dart';
 
 class TasksServices extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  
+  Map<String, List<Tasks>> _tasksByList = {};
+  bool isLoading = false;
 
-  List<Tasks> _tasks = [];
-  List<Tasks> get tasks => _tasks;
+  Map<String, List<Tasks>> get tasksByList => _tasksByList;
 
-  Future<void> loadTasks(String listId) async {
-    QuerySnapshot snapshot = await _firestore
-        .collection('tasks')
-        .where('listId', isEqualTo: listId)
-        .orderBy('createdAt', descending: true)
-        .get();
+  Future<void> loadTasksForLists(List<String> listIds) async {
+    if (listIds.isEmpty) return;
 
-    _tasks = snapshot.docs.map((doc) => Tasks.fromJson(doc)).toList();
+    isLoading = true;
+    notifyListeners();
+
+    try {
+      print("🔄 Carregando todas as tarefas para listas: $listIds");
+
+      for (String listId in listIds) {
+        QuerySnapshot snapshot = await _firestore
+            .collection('tasks')
+            .where('listId', isEqualTo: listId)
+            .orderBy('createdAt', descending: true)
+            .get();
+
+        _tasksByList[listId] = snapshot.docs.map((doc) => Tasks.fromJson(doc)).toList();
+        print("📌 Tarefas carregadas para a lista $listId: ${_tasksByList[listId]!.length}");
+      }
+
+    } catch (e) {
+      print("❌ Erro ao carregar tarefas: $e");
+    }
+
+    isLoading = false;
     notifyListeners();
   }
 
   Future<void> addTask(String listId, String title) async {
-    Tasks newTask = Tasks(
-      title: title,
-      isCompleted: false,
-      listId: listId,
-      createdAt: Timestamp.now(),
-    );
+    try {
+      DocumentReference docRef = await _firestore.collection('tasks').add({
+        'listId': listId,
+        'title': title,
+        'isCompleted': false,
+        'createdAt': Timestamp.now(),
+      });
 
-    DocumentReference docRef =
-        await _firestore.collection('tasks').add(newTask.toJson());
-    newTask.id = docRef.id;
+      Tasks newTask = Tasks(id: docRef.id, listId: listId, title: title, isCompleted: false, createdAt: Timestamp.now());
+      
+      _tasksByList[listId] = [..._tasksByList[listId] ?? [], newTask];
 
-    _tasks.insert(0, newTask);
-    notifyListeners();
-  }
-
-  Future<void> toggleTaskCompletion(String taskId, bool isCompleted) async {
-    await _firestore.collection('tasks').doc(taskId).update({
-      'isCompleted': isCompleted,
-    });
-
-    int index = _tasks.indexWhere((task) => task.id == taskId);
-    if (index != -1) {
-      _tasks[index].isCompleted = isCompleted;
+      notifyListeners();
+    } catch (e) {
+      print("❌ Erro ao adicionar tarefa: $e");
     }
-
-    notifyListeners();
   }
 
-  Future<void> deleteTask(String taskId) async {
-    await _firestore.collection('tasks').doc(taskId).delete();
-    _tasks.removeWhere((task) => task.id == taskId);
-    notifyListeners();
+  Future<void> toggleTaskCompletion(String taskId, String listId, bool isCompleted) async {
+    try {
+      await _firestore.collection('tasks').doc(taskId).update({'isCompleted': isCompleted});
+      
+      int index = _tasksByList[listId]?.indexWhere((task) => task.id == taskId) ?? -1;
+      if (index != -1) {
+        _tasksByList[listId]![index].isCompleted = isCompleted;
+      }
+
+      notifyListeners();
+    } catch (e) {
+      print("❌ Erro ao atualizar tarefa: $e");
+    }
   }
 
-  List<Tasks> getTasksForList(String listId) {
-    return _tasks.where((task) => task.listId == listId).toList();
+  Future<void> deleteTask(String taskId, String listId) async {
+    try {
+      await _firestore.collection('tasks').doc(taskId).delete();
+      
+      _tasksByList[listId]?.removeWhere((task) => task.id == taskId);
+      notifyListeners();
+    } catch (e) {
+      print("❌ Erro ao excluir tarefa: $e");
+    }
   }
 }
